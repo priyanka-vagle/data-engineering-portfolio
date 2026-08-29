@@ -1,5 +1,5 @@
 import csv
-
+# Sales processing pipeline
 state_mapping = {}
 missing_sales_count = 0
 invalid_sales_count = 0
