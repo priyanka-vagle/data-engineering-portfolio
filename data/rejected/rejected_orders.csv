@@ -1,0 +1,3 @@
+order_id,state,sales,reason
+101,nc,,MISSING_SALES
+104,TX,abc,INVALID_SALES
