@@ -26,6 +26,10 @@ with open("data/raw/orders.csv","r") as file:
             order["reason"] = "INVALID_SALES"
             rejected_orders.append(order)
             continue
+        if order["sales"] < 0:
+            order["reason"] = "NEGATIVE_SALES"
+            rejected_orders.append(order)
+            continue
         state = order["state"].strip().upper()
         if state =="":
             state= "UNKNOWN"
