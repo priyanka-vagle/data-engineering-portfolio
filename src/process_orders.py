@@ -1,6 +1,7 @@
 import csv
 # Sales processing pipeline
 state_mapping = {}
+state_order_count ={}
 missing_sales_count = 0
 invalid_sales_count = 0
 rejected_orders = []
@@ -39,7 +40,12 @@ with open("data/raw/orders.csv","r") as file:
             state_sales[state]+=order["sales"]
         else:
             state_sales[state]=order["sales"]
+        if state in state_order_count:
+            state_order_count[state]+=1
+        else:
+            state_order_count[state]=1
     print(state_sales)
+    print(state_order_count)
     print("Unknown state records:", unknown_state_count)
     print("Missing sales records:", missing_sales_count)
     print("Invalid sales records:", invalid_sales_count)
@@ -48,9 +54,9 @@ with open("data/raw/orders.csv","r") as file:
     print("Total rejected records:", total_rejected_records)
     with open("data/processed/sales_by_state.csv", "w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["state", "total_sales"])
+        writer.writerow(["state", "total_sales","order_count"])
         for state, total_sales in state_sales.items():
-            writer.writerow([state, total_sales])
+            writer.writerow([state, total_sales,state_order_count[state]])
     with open("data/rejected/rejected_orders.csv", "w", newline="") as file:
         writer = csv.DictWriter(file,fieldnames=["order_id", "state", "sales", "reason"])
         writer.writeheader()
